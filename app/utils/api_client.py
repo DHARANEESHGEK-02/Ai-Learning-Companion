@@ -6,7 +6,8 @@ import httpx
 import streamlit as st
 from typing import Any
 
-BASE_URL = "http://localhost:8000"
+import os
+BASE_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 TIMEOUT = 30.0
 
 

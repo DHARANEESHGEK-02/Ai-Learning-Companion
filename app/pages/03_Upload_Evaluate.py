@@ -2,7 +2,7 @@ import streamlit as st
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from utils.api_client import is_logged_in, current_user, api_get, api_post
+from utils.api_client import is_logged_in, current_user, api_get, api_post, BASE_URL
 import httpx
 import time
 
@@ -103,7 +103,7 @@ with tab1:
                         try:
                             file_bytes = uploaded_file.getvalue()
                             response = httpx.post(
-                                "http://localhost:8000/evaluations/upload",
+                                f"{BASE_URL}/evaluations/upload",
                                 headers={"Authorization": f"Bearer {token}"},
                                 data={"exam_id": selected_exam["id"]},
                                 files={"file": (uploaded_file.name, file_bytes, uploaded_file.type)},
@@ -138,7 +138,7 @@ with tab1:
                         try:
                             file_bytes = camera_input.getvalue()
                             response = httpx.post(
-                                "http://localhost:8000/evaluations/upload",
+                                f"{BASE_URL}/evaluations/upload",
                                 headers={"Authorization": f"Bearer {token}"},
                                 data={"exam_id": selected_exam["id"]},
                                 files={"file": ("camera_capture.jpg", file_bytes, "image/jpeg")},
@@ -181,7 +181,7 @@ with tab1:
                     token = st.session_state.get("token", "")
                     try:
                         response = httpx.post(
-                            "http://localhost:8000/evaluations/upload",
+                            f"{BASE_URL}/evaluations/upload",
                             headers={"Authorization": f"Bearer {token}"},
                             data={"exam_id": selected_exam["id"], "text_answer": text_answer},
                             timeout=60,
